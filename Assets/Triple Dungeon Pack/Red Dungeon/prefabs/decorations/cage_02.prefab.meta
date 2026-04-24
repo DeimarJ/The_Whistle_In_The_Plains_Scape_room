@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 9a0270db994d1364589373e7f256c7fc
+timeCreated: 1515692725
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40198
+  packageName: The Red Prison
+  packageVersion: 1.5
+  assetPath: Assets/Triple Dungeon Pack/Red Dungeon/prefabs/decorations/cage_02.prefab
+  uploadId: 223472

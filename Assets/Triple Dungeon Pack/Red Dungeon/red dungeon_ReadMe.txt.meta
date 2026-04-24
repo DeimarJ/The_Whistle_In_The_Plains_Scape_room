@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 88ea21413586f8140b3e1e5698b5e58c
+timeCreated: 1512952307
+licenseType: Store
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40198
+  packageName: The Red Prison
+  packageVersion: 1.5
+  assetPath: Assets/Triple Dungeon Pack/Red Dungeon/red dungeon_ReadMe.txt
+  uploadId: 223472
