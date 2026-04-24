@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 0e9d4178a328fdd46a3501eeef8cb5c9
+timeCreated: 1515692716
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40198
+  packageName: The Red Prison
+  packageVersion: 1.5
+  assetPath: Assets/Triple Dungeon Pack/Red Dungeon/prefabs/decorations/barrel.prefab
+  uploadId: 223472

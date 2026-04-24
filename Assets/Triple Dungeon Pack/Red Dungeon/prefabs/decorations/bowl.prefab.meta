@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 055b229f32ae4ad44a460b0abb41d4a9
+timeCreated: 1515692718
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40198
+  packageName: The Red Prison
+  packageVersion: 1.5
+  assetPath: Assets/Triple Dungeon Pack/Red Dungeon/prefabs/decorations/bowl.prefab
+  uploadId: 223472
