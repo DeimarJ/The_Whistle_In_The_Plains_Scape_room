@@ -42,6 +42,10 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float interactRadius = 0.5f;
     [SerializeField] private LayerMask interactMask;
 
+    [Header("Inventory")]
+    [SerializeField] private Inventory inventory;
+
+    public Inventory Inventory => inventory;
     private CharacterController controller;
 
     private Vector3 velocity;
@@ -49,8 +53,6 @@ public class FirstPersonController : MonoBehaviour
     private float xRotation;
 
     private bool isGrounded;
-    private bool hasLantern;
-    private bool lanternOn;
 
     private void Awake()
     {
@@ -74,6 +76,8 @@ public class FirstPersonController : MonoBehaviour
         HandleCrouch();
         HandleLantern();
         HandleInteraction();
+        HandleDrop();
+        HandleLanternRefill();
 
         ApplyGravity();
     }
@@ -106,11 +110,75 @@ public class FirstPersonController : MonoBehaviour
     }
     private void HandleLantern()
     {
-        if (!hasLantern)
+        if (!input.LanternPressed)
         {
             return;
         }
 
+        input.ConsumeLantern();
+
+        Lantern lantern = GetEquippedLantern();
+
+        if (lantern == null)
+        {
+            return;
+        }
+
+        lantern.ToggleLantern();
+    }
+    private void HandleLanternRefill()
+    {
+        if (!input.RefillPressed)
+        {
+            return;
+        }
+
+        input.ConsumeRefill();
+
+        Lantern lantern = GetEquippedLantern();
+
+        if (lantern == null)
+        {
+            return;
+        }
+
+        if (!inventory.HasResource(ResourceType.Oil))
+        {
+            return;
+        }
+
+        bool refilled = lantern.RefillOil(50f);
+
+        if (!refilled)
+        {
+            return;
+        }
+
+        inventory.ConsumeResource(ResourceType.Oil,1);
+    }
+    private Lantern GetEquippedLantern()
+    {
+        if (rightHand.HeldObject != null)
+        {
+            Lantern lantern = rightHand.HeldObject.GetComponent<Lantern>();
+
+            if (lantern != null)
+            {
+                return lantern;
+            }
+        }
+
+        if (leftHand.HeldObject != null)
+        {
+            Lantern lantern = leftHand.HeldObject.GetComponent<Lantern>();
+
+            if (lantern != null)
+            {
+                return lantern;
+            }
+        }
+
+        return null;
     }
     private void HandleLook()
     {
@@ -218,9 +286,9 @@ public class FirstPersonController : MonoBehaviour
         );
     }
 
-    public void GrabObject(GameObject objectToGrab, HandType hand)
+    public void GrabObject(GrabbableObject grabbable)
     {
-        GetHand(hand).GrabObject(objectToGrab);
+        GetHand(grabbable.Hand).GrabObject(grabbable);
     }
 
     public void DropObject(HandType hand)
@@ -316,5 +384,17 @@ Debug.DrawRay(
         {
             bestInteractable.Interact(this);
         }
+    }
+    private void HandleDrop()
+    {
+        if (!input.DropPressed)
+        {
+            return;
+        }
+
+        input.ConsumeDrop();
+
+        // Solo suelta la mano derecha
+        DropObject(HandType.Right);
     }
 }

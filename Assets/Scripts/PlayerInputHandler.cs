@@ -11,6 +11,9 @@ public class PlayerInputHandler : MonoBehaviour
     public bool CrouchPressed { get; private set; }
     public bool LanternPressed { get; private set; }
     public bool InteractPressed { get; private set; }
+    public bool DropPressed { get; private set; }
+    public bool RefillPressed { get; private set; }
+
     private PlayerInputActions inputActions;
 
     private void Awake()
@@ -35,8 +38,10 @@ public class PlayerInputHandler : MonoBehaviour
         inputActions.Player.Sprint.canceled += ctx => SprintHeld = false;
 
         inputActions.Player.Crouch.performed += ctx => CrouchPressed = !CrouchPressed;
-        inputActions.Player.Lantern.performed += ctx => LanternPressed = !LanternPressed;
-        inputActions.Player.Interact.performed += ctx => InteractPressed = true;
+        inputActions.Player.Lantern.performed += ctx => LanternPressed = true;
+        inputActions.Player.Interact.performed += ctx => InteractPressed = true; 
+        inputActions.Player.Drop.performed += ctx => DropPressed = true;
+        inputActions.Player.Refill.performed += ctx => RefillPressed = true;
     }
 
     public void ConsumeJump()
@@ -46,6 +51,18 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeInteract()
     {
         InteractPressed = false;
+    }
+    public void ConsumeDrop()
+    {
+        DropPressed = false;
+    }
+    public void ConsumeLantern()
+    {
+        LanternPressed = false;
+    }
+    public void ConsumeRefill()
+    {
+        RefillPressed = false;
     }
     private void OnDisable()
     {

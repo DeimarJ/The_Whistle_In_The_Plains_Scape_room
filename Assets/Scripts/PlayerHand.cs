@@ -8,37 +8,52 @@ public class PlayerHand : MonoBehaviour
 {
     [Header("Socket")]
     [SerializeField] private Transform socket;
+    public GrabbableObject HeldObject { get; private set; }
 
-    public GameObject HeldObject { get; private set; }
-
-    public void GrabObject(GameObject objectToGrab)
+    public void GrabObject(GrabbableObject grabbable)
     {
-        if (objectToGrab == null)
+        if (grabbable == null)
         {
             return;
         }
 
         DropObject();
 
-        objectToGrab.transform.SetParent(socket);
-        objectToGrab.transform.localPosition = Vector3.zero;
-        objectToGrab.transform.localRotation = Quaternion.identity;
+        Transform objectTransform = grabbable.transform;
 
-        Rigidbody rb = objectToGrab.GetComponent<Rigidbody>();
+        objectTransform.SetParent(socket);
+
+        if (grabbable.GrabPoint != null)
+        {
+            Transform grabPoint = grabbable.GrabPoint;
+
+            objectTransform.localRotation =
+                Quaternion.Inverse(grabPoint.localRotation);
+
+            objectTransform.localPosition =
+                -grabPoint.localPosition;
+        }
+        else
+        {
+            objectTransform.localPosition = Vector3.zero;
+            objectTransform.localRotation = Quaternion.identity;
+        }
+
+        Rigidbody rb = grabbable.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
             rb.isKinematic = true;
         }
 
-        Collider col = objectToGrab.GetComponent<Collider>();
+        Collider col = grabbable.GetComponent<Collider>();
 
         if (col != null)
         {
             col.enabled = false;
         }
 
-        HeldObject = objectToGrab;
+        HeldObject = grabbable;
     }
 
     public void DropObject()
