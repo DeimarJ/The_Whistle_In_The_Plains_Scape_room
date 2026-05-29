@@ -46,6 +46,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Inventory inventory;
 
     public Inventory Inventory => inventory;
+    public PlayerHand RightHand => rightHand;
+    public PlayerHand LeftHand => leftHand;
+
     private CharacterController controller;
 
     private Vector3 velocity;
