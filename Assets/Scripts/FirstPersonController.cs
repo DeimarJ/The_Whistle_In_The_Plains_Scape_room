@@ -81,6 +81,7 @@ public class FirstPersonController : MonoBehaviour
         HandleInteraction();
         HandleDrop();
         HandleLanternRefill();
+        HandleTogglePause();
 
         ApplyGravity();
     }
@@ -386,6 +387,18 @@ Debug.DrawRay(
         if (bestInteractable != null)
         {
             bestInteractable.Interact(this);
+        }
+    }
+    private void HandleTogglePause()
+    {
+        if (!input.TogglePausePressed)
+        {
+            return;
+        }
+        input.ConsumeTogglePause();
+        if (MainGame.Instance != null)
+        {
+            MainGame.TogglePauseMenu();
         }
     }
     private void HandleDrop()

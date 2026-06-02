@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractPressed { get; private set; }
     public bool DropPressed { get; private set; }
     public bool RefillPressed { get; private set; }
+    public bool TogglePausePressed { get; private set; }
 
     private PlayerInputActions inputActions;
 
@@ -42,6 +44,7 @@ public class PlayerInputHandler : MonoBehaviour
         inputActions.Player.Interact.performed += ctx => InteractPressed = true; 
         inputActions.Player.Drop.performed += ctx => DropPressed = true;
         inputActions.Player.Refill.performed += ctx => RefillPressed = true;
+        inputActions.Player.TogglePause.performed += ctx => TogglePausePressed = true;
     }
 
     public void ConsumeJump()
@@ -63,6 +66,10 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeRefill()
     {
         RefillPressed = false;
+    }
+    public void ConsumeTogglePause()
+    {
+        TogglePausePressed = false;
     }
     private void OnDisable()
     {
