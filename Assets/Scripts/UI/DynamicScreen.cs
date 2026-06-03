@@ -1,29 +1,49 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-//Abstract parent class for UI Scripts
 public abstract class DynamicScreen : MonoBehaviour
 {
-    // Initite the Screen
+    [Header("Navigation")]
+    [SerializeField] private GameObject defaultFocusObject;
+
     public void Init()
     {
         CustomInit();
     }
 
-    // Activate the screen
     public void Open()
     {
         gameObject.SetActive(true);
+
+        UIFocusManager.Instance?.RegisterScreen(this);
+
         CustomOpen();
     }
 
-    // Deactivate the screen
     public void Close()
     {
         CustomClose();
+
+        UIFocusManager.Instance?.UnregisterScreen(this);
+
         gameObject.SetActive(false);
     }
 
-    // Abstract methods for children scripts
+    public virtual void FocusDefaultObject()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+
+        if (defaultFocusObject == null)
+            return;
+
+        Canvas.ForceUpdateCanvases();
+
+        EventSystem.current.SetSelectedGameObject(defaultFocusObject);
+    }
+    public virtual void OnCancel()
+    {
+        Close();
+    }
     protected abstract void CustomInit();
     protected abstract void CustomOpen();
     protected abstract void CustomClose();

@@ -82,7 +82,7 @@ public class FirstPersonController : MonoBehaviour
         HandleDrop();
         HandleLanternRefill();
         HandleTogglePause();
-
+        HandleCancel();
         ApplyGravity();
     }
 
@@ -219,7 +219,15 @@ public class FirstPersonController : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
     }
+    private void HandleCancel()
+    {
+        if (input.CancelPressed)
+        {
+            UIFocusManager.Instance.CancelTopScreen();
 
+            input.ConsumeCancel();
+        }
+    }
     private void HandleCrouch()
     {
         bool wantsToCrouch = input.CrouchPressed;
@@ -391,14 +399,14 @@ Debug.DrawRay(
     }
     private void HandleTogglePause()
     {
-        if (!input.TogglePausePressed)
+        if (!input.PausePressed)
         {
             return;
         }
-        input.ConsumeTogglePause();
+        input.ConsumePause();
         if (MainGame.Instance != null)
         {
-            MainGame.TogglePauseMenu();
+            MainGame.Pause(PauseReason.PauseMenu);
         }
     }
     private void HandleDrop()

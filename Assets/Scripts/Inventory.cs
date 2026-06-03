@@ -19,6 +19,9 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private List<ResourceEntry> resources = new();
 
+    [Header("Files")]
+    [SerializeField]
+    private List<FileData> unlockedFiles = new();
     public int GetResource(ResourceType type)
     {
         ResourceEntry entry =
@@ -66,6 +69,27 @@ public class Inventory : MonoBehaviour
     public bool HasResource(ResourceType type, int amount = 1)
     {
         return GetResource(type) >= amount;
+    }
+
+    public bool UnlockFile(FileData file)
+    {
+        if (file == null || unlockedFiles.Contains(file))
+        {
+            return false;
+        }
+
+        unlockedFiles.Add(file);
+        return true;
+    }
+
+    public bool HasFile(FileData file)
+    {
+        return unlockedFiles.Contains(file);
+    }
+
+    public IReadOnlyList<FileData> GetUnlockedFiles()
+    {
+        return unlockedFiles;
     }
 }
 

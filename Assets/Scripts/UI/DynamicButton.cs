@@ -10,7 +10,7 @@ public class DynamicButton : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private UIClipType clickSound = UIClipType.ButtonClick1;
-
+    public Button TargetButton => button;
     private void Reset()
     {
         if (button == null)

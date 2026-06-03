@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HUD : DynamicScreen
+public class ControlsScreen : DynamicScreen
 {
     protected override void CustomInit()
     {
@@ -11,5 +11,4 @@ public class HUD : DynamicScreen
     protected override void CustomClose()
     {
     }
-
 }

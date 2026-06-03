@@ -14,7 +14,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractPressed { get; private set; }
     public bool DropPressed { get; private set; }
     public bool RefillPressed { get; private set; }
-    public bool TogglePausePressed { get; private set; }
+    public bool PausePressed { get; private set; }
+    public bool CancelPressed { get; private set; }
 
     private PlayerInputActions inputActions;
 
@@ -25,7 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Enable();
+        inputActions.Player.Enable();
 
         inputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
@@ -44,7 +45,8 @@ public class PlayerInputHandler : MonoBehaviour
         inputActions.Player.Interact.performed += ctx => InteractPressed = true; 
         inputActions.Player.Drop.performed += ctx => DropPressed = true;
         inputActions.Player.Refill.performed += ctx => RefillPressed = true;
-        inputActions.Player.TogglePause.performed += ctx => TogglePausePressed = true;
+        inputActions.Player.Pause.performed += ctx => PausePressed = true;
+        inputActions.UI.Cancel.performed += ctx => CancelPressed = true;
     }
 
     public void ConsumeJump()
@@ -67,12 +69,30 @@ public class PlayerInputHandler : MonoBehaviour
     {
         RefillPressed = false;
     }
-    public void ConsumeTogglePause()
+    public void ConsumePause()
     {
-        TogglePausePressed = false;
+        PausePressed = false;
+    }
+    public void ConsumeCancel()
+    {
+        CancelPressed = false;
     }
     private void OnDisable()
     {
         inputActions.Disable();
+    }
+    public void SwitchToGameplay()
+    {
+        inputActions.UI.Disable();
+        inputActions.Player.Enable();
+    }
+    public void SwitchToUI()
+    {
+        inputActions.Player.Disable();
+        inputActions.UI.Enable();
+
+        MoveInput = Vector2.zero;
+        LookInput = Vector2.zero;
+        SprintHeld = false;
     }
 }

@@ -6,7 +6,8 @@ public enum PauseReason
     PauseMenu,
     Puzzle,
     Dialogue,
-    Cutscene
+    Cutscene,
+    File,
 }
 public class MainGame : MonoBehaviour
 {
@@ -62,7 +63,19 @@ public class MainGame : MonoBehaviour
 
     private static void UpdatePauseState()
     {
-        Time.timeScale = IsPaused ? 0f : 1f;
+        bool paused = pauseReasons.Count > 0;
+
+        Time.timeScale = paused ? 0f : 1f;
+
+        if (MainScene.InputHandler == null)
+        {
+            return;
+        }
+
+        if (paused)
+            MainScene.InputHandler.SwitchToUI();
+        else
+            MainScene.InputHandler.SwitchToGameplay();
     }
 
     private void OnDestroy()
@@ -73,4 +86,5 @@ public class MainGame : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+
 }
