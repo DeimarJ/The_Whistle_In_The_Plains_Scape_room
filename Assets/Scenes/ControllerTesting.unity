@@ -4131,18 +4131,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1519126094}
     - target: {fileID: 8446892890014445559, guid: 9f0b761b9caa16f49ac14719724c4a93, type: 3}
-      propertyPath: rotationSpeed
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446892890014445559, guid: 9f0b761b9caa16f49ac14719724c4a93, type: 3}
-      propertyPath: turnStateName
-      value: Standing Torch Turn Right  180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446892890014445559, guid: 9f0b761b9caa16f49ac14719724c4a93, type: 3}
-      propertyPath: turnAnimDuration
-      value: 1.833
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446892890014445559, guid: 9f0b761b9caa16f49ac14719724c4a93, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
       objectReference: {fileID: 2090980978}
