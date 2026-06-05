@@ -89,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
         HandleTogglePause();
         HandleCancel();
         ApplyGravity();
+        DetectInteractable();
     }
 
     private void HandleMovement()
@@ -428,5 +429,47 @@ Debug.DrawRay(
         DropObject(HandType.Right);
     }
 
+
+    private void DetectInteractable()
+    {
+        Ray ray = playerCamera.ViewportPointToRay(
+            new Vector3(0.5f, 0.5f));
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            interactDistance,
+            interactMask))
+        {
+            IInteractuable interactable =
+                hit.collider.GetComponent<IInteractuable>();
+            if (interactable != currentTarget)
+            {
+                currentTarget?.Highlight(false);
+
+                currentTarget = interactable;
+
+                currentTarget?.Highlight(true);
+            }
+
+            if (currentTarget != null)
+            {
+                interactionPrompt.gameObject.SetActive(true);
+                interactionPrompt.text = currentTarget.InteractionText;
+            }
+            else
+            {
+                interactionPrompt.gameObject.SetActive(false);
+            }
+
+        }
+        else
+        {
+            interactionPrompt.gameObject.SetActive(false);
+            currentTarget?.Highlight(false);
+            currentTarget = null;
+
+        }
+    }
 
 }
