@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyNavigation : MonoBehaviour
+public class EnemyNavigationFixed : MonoBehaviour
 {
     public Transform player;
     public float detectionRange = 15f;
@@ -68,13 +68,10 @@ public class EnemyNavigation : MonoBehaviour
             if (distance > attackRange)
             {
                 agent.SetDestination(player.position);
-
-                // Rotación suave siguiendo la velocidad real del agente (No olvidarme de esto)
                 RotateTowardsMovement();
             }
             else
             {
-                // Rotar hacia el jugador antes/durante el ataque (No olvidarme de hacer la prueba de irme detrás de él)
                 RotateTowardsTarget(player.position);
                 TryAttack();
             }
@@ -171,10 +168,14 @@ public class EnemyNavigation : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+
         Vector3 left = Quaternion.Euler(0, -fieldOfViewAngle * 0.5f, 0) * transform.forward;
         Vector3 right = Quaternion.Euler(0, fieldOfViewAngle * 0.5f, 0) * transform.forward;
-        Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, left * detectionRange);
         Gizmos.DrawRay(transform.position, right * detectionRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
     }
 }
