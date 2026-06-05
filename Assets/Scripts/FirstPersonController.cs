@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -41,6 +42,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float interactDistance = 3f;
     [SerializeField] private float interactRadius = 0.5f;
     [SerializeField] private LayerMask interactMask;
+    [SerializeField] private TMP_Text interactionPrompt;
 
     [Header("Inventory")]
     [SerializeField] private Inventory inventory;
@@ -57,6 +59,8 @@ public class FirstPersonController : MonoBehaviour
 
     private bool isGrounded;
 
+    private IInteractuable currentTarget;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -68,6 +72,7 @@ public class FirstPersonController : MonoBehaviour
     {
         SetCharacterHeight(standingHeight);
         SetCameraHeight(standingCameraHeight);
+        interactionPrompt.gameObject.SetActive(false);
 
 
     }
@@ -84,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
         HandleTogglePause();
         HandleCancel();
         ApplyGravity();
+        DetectInteractable();
     }
 
     private void HandleMovement()
@@ -346,6 +352,7 @@ Debug.DrawRay(
             if (interactable != null)
             {
                 interactable.Interact(this);
+                currentTarget?.Highlight(false);
                 return;
             }
         }
@@ -420,5 +427,47 @@ Debug.DrawRay(
 
         // Solo suelta la mano derecha
         DropObject(HandType.Right);
+    }
+
+    private void DetectInteractable()
+    {
+        Ray ray = playerCamera.ViewportPointToRay(
+            new Vector3(0.5f, 0.5f));
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            interactDistance,
+            interactMask))
+        {
+            IInteractuable interactable =
+                hit.collider.GetComponent<IInteractuable>();
+                if (interactable != currentTarget)
+                {
+                        currentTarget?.Highlight(false);
+
+                        currentTarget = interactable;
+
+                        currentTarget?.Highlight(true);
+                }
+
+            if (currentTarget != null)
+            {
+                interactionPrompt.gameObject.SetActive(true);
+                interactionPrompt.text = currentTarget.InteractionText;
+            }
+            else
+            {
+                interactionPrompt.gameObject.SetActive(false);
+            }
+            
+        }
+        else
+        {
+            interactionPrompt.gameObject.SetActive(false);
+            currentTarget?.Highlight(false);
+                currentTarget = null;
+                
+        }
     }
 }
