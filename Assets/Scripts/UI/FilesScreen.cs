@@ -27,6 +27,8 @@ public class FilesScreen : DynamicScreen
     protected override void CustomOpen()
     {
         FocusDefaultObject();
+
+        SoundManager.Instance?.PlaySFX(SFXType.PageOpen);
     }
 
     protected override void CustomClose()
@@ -36,6 +38,7 @@ public class FilesScreen : DynamicScreen
     public override void OnCancel()
     {
         MainGame.Unpause(PauseReason.File);
-        Close();
+
+        base.OnCancel();
     }
 }

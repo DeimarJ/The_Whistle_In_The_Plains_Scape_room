@@ -14,6 +14,8 @@ public class Key : GrabbableObject
     public void SetSocket(UnlockableSocket socket)
     {
         currentUnlockableSocket = socket;
+
+        SoundManager.Instance?.PlaySFX(SFXType.KeyGrab);
     }
 
     public void ClearSocket()
@@ -32,5 +34,6 @@ public class Key : GrabbableObject
         }
 
         base.Interact(player);
+
     }
 }

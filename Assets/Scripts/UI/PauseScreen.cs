@@ -43,5 +43,7 @@ public class PauseScreen : DynamicScreen
     public override void OnCancel()
     {
         MainGame.Unpause(PauseReason.PauseMenu);
+
+        SoundManager.Instance?.PlayUI(m_onCancelSound);
     }
 }

@@ -16,7 +16,7 @@ public class FileInteractable : InteractableObject
         }
 
         player.Inventory.UnlockFile(file);
-
+        SoundManager.Instance?.PlaySFX(SFXType.PageGrab);
         if (openOnPickup)
         {
             MainScene.MainCanvas.FilesScreen.ShowFile(file);

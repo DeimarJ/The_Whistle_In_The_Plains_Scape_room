@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4c0cfbc0567a74281bc6c08396a77c, type: 3}
+  m_Name: LanternAndOil
+  m_EditorClassIdentifier: Assembly-CSharp::FileData
+  fileID: LanternAndOil
+  fileName: Un esqueleto y una linterna
+  content: "El patr\xF3n ha decidido que el cad\xE1ver de este prisionero quede exhibido
+    en su celda por el resto de la eternidad. Se llamaba Luis, e intent\xF3 estafar
+    a la se\xF1ora de la casa vendiendole aceite de mala calidad. Por esto, lo dejamos
+    con la linterna donde se iba a utilizar su aceite barato. Que sirva de advertencia.\n\nNota:
+    Enciende la linterna con F y recargala con aceite usando R "

@@ -73,6 +73,7 @@ public class Lantern : GrabbableObject
 
         lanternLight.enabled = true;
         lightVisuals.SetActive(true);
+        SoundManager.Instance?.PlaySFX(SFXType.LanternOn);
     }
 
     private void TurnOff()
@@ -81,6 +82,7 @@ public class Lantern : GrabbableObject
 
         lanternLight.enabled = false;
         lightVisuals.SetActive(false);
+        SoundManager.Instance?.PlaySFX(SFXType.LanternOff);
     }
 
     private void ConsumeOil()
@@ -91,6 +93,8 @@ public class Lantern : GrabbableObject
 
         if (currentOil <= 0f)
         {
+
+            SoundManager.Instance?.PlaySFX(SFXType.OilOver);
             TurnOff();
         }
     }
@@ -127,6 +131,8 @@ public class Lantern : GrabbableObject
 
         currentOil = Mathf.Min(currentOil, maxOil);
 
+
+        SoundManager.Instance?.PlaySFX(SFXType.RefillOil);
         return true;
     }
 

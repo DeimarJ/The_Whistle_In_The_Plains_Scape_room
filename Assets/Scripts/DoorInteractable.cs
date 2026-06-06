@@ -76,6 +76,7 @@ public class DoorInteractable : UnlockableObject
             openedRotation,
             duration
         );
+        SoundManager.Instance?.PlaySFX(SFXType.DoorOpen);
     }
 
     public void Close()
@@ -92,6 +93,7 @@ public class DoorInteractable : UnlockableObject
             closedRotation.eulerAngles,
             duration
         );
+        SoundManager.Instance?.PlaySFX(SFXType.DoorClose);
     }
 
     public void UnlockAndOpen()

@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
         UpdateHealthBar();
-
+        SoundManager.Instance?.PlaySFX(SFXType.PlayerDamage);
         if (anim != null)
             anim.SetTrigger("Hit");
 
@@ -83,8 +83,16 @@ public class PlayerHealth : MonoBehaviour
             anim.SetTrigger("Die");
 
         // Desactiva controles del jugador
-        MonoBehaviour controller = GetComponent<FirstPersonController>();
-        controller.enabled = false;
+
+        if (MainGame.Instance != null && respawnPoint == null)
+        {
+            MainGame.OnDeath();
+        }
+        else
+        {
+            MonoBehaviour controller = GetComponent<FirstPersonController>();
+            controller.enabled = false;
+        }
 
         Invoke(nameof(Respawn), respawnDelay);
     }

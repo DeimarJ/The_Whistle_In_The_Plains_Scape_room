@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public enum PauseReason
 {
     PauseMenu,
@@ -8,10 +8,13 @@ public enum PauseReason
     Dialogue,
     Cutscene,
     File,
+    Win,
+    Death,
 }
 public class MainGame : MonoBehaviour
 {
     public static MainGame Instance { get; private set; }
+    [SerializeField] private MusicType musicType = MusicType.Ambient1;
 
     private static readonly HashSet<PauseReason> pauseReasons = new();
 
@@ -26,6 +29,10 @@ public class MainGame : MonoBehaviour
         }
 
         Instance = this;
+    }
+    private void Start()
+    {
+        SoundManager.Instance?.PlayMusic(musicType);
     }
     public static void Pause(PauseReason reason)
     {
@@ -86,5 +93,26 @@ public class MainGame : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
-
+    public static void OnDeath()
+    {
+        Pause(PauseReason.Death);
+        MainScene.InputHandler.SwitchToUI();
+        if(MainScene.MainCanvas.GameOverScreen != null)
+        {
+            MainScene.MainCanvas.GameOverScreen.Open();
+        }
+    } 
+    public static void OnWin()
+    {
+        Pause(PauseReason.Win);
+        MainScene.InputHandler.SwitchToUI();
+        if (MainScene.MainCanvas.WinScreen != null)
+        {
+            MainScene.MainCanvas.WinScreen.Open();
+        }
+    }
+    public static void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

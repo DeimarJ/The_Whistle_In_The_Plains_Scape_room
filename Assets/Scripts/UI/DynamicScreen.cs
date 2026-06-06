@@ -5,7 +5,8 @@ public abstract class DynamicScreen : MonoBehaviour
 {
     [Header("Navigation")]
     [SerializeField] private GameObject defaultFocusObject;
-
+    [Header("SFX")]
+    [SerializeField] protected UIClipType m_onCancelSound = UIClipType.ButtonClick1;
     public void Init()
     {
         CustomInit();
@@ -43,6 +44,7 @@ public abstract class DynamicScreen : MonoBehaviour
     public virtual void OnCancel()
     {
         Close();
+        SoundManager.Instance?.PlayUI(m_onCancelSound);
     }
     protected abstract void CustomInit();
     protected abstract void CustomOpen();
