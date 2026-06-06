@@ -206,7 +206,7 @@ MonoBehaviour:
   grabPoint: {fileID: 1565835780}
   lanternLight: {fileID: 1982739012}
   lightVisuals: {fileID: 1982739011}
-  startOn: 0
+  startOn: 1
   maxOil: 100
   currentOil: 100
   oilConsumptionRate: 1

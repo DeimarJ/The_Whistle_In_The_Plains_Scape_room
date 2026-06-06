@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: pista1Fram
   m_EditorClassIdentifier: Assembly-CSharp::FileData
   fileID: pist1F
-  fileName: 
+  fileName: LABERINTO
   content: "--Abel\nEn la ma\xF1ana mientras revisaba el estado del maiz, tuve que
     salir de emergencia. las llaves del porton quedaron olvidadas sobre un barril
-    en el maizal."
+    en el maizal. Ten cuidado, a los guardias no les gustan las visitas al maizal
+    tarde de la noche."
