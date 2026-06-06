@@ -72,9 +72,7 @@ public class FirstPersonController : MonoBehaviour
     {
         SetCharacterHeight(standingHeight);
         SetCameraHeight(standingCameraHeight);
-        interactionPrompt.gameObject.SetActive(false);
-
-
+        interactionPrompt?.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -454,18 +452,18 @@ Debug.DrawRay(
 
             if (currentTarget != null)
             {
-                interactionPrompt.gameObject.SetActive(true);
+                interactionPrompt?.gameObject.SetActive(true);
                 interactionPrompt.text = currentTarget.InteractionText;
             }
             else
             {
-                interactionPrompt.gameObject.SetActive(false);
+                interactionPrompt?.gameObject.SetActive(false);
             }
 
         }
         else
         {
-            interactionPrompt.gameObject.SetActive(false);
+            interactionPrompt?.gameObject.SetActive(false);
             currentTarget?.Highlight(false);
             currentTarget = null;
 
