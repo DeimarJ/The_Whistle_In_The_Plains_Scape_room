@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FileData
   fileID: pist1F
   fileName: LABERINTO
-  content: "--Abel\nEn la ma\xF1ana mientras revisaba el estado del maiz, tuve que
-    salir de emergencia. las llaves del porton quedaron olvidadas sobre un barril
-    en el maizal. Ten cuidado, a los guardias no les gustan las visitas al maizal
-    tarde de la noche."
+  content: Las llaves del rancho quedaron olvidadas entre las hileras del maizal.
+    Si quieres entrar, primero debes recuperarlas.

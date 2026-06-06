@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: pist2Farm
   m_EditorClassIdentifier: Assembly-CSharp::FileData
   fileID: pista2
-  fileName: 
-  content: "Cuando logres entrar al rancho, evade al guardia y busca suministros
-    de aceite para tu lampara\n "
+  fileName: CUIDADO!
+  content: "Ten cuidado: dentro del laberinto merodean vigilantes. Ev\xEDtalos a
+    toda costa si quieres sobrevivir."
