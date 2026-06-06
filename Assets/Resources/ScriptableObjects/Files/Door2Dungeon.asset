@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4c0cfbc0567a74281bc6c08396a77c, type: 3}
+  m_Name: Door2Dungeon
+  m_EditorClassIdentifier: Assembly-CSharp::FileData
+  fileID: Door2Dungeon
+  fileName: "Reporte de mot\xEDn"
+  content: "Se informa al patr\xF3n que hubo un intento de mot\xEDn de algunos prisioneros.
+    Hirieron de gravedad a un guardia, con un diagn\xF3stico poco esperanzador. \n\nLos
+    prisioneros fueron ejecutados. Sin embargo, se perdi\xF3 la llave de esta puerta,
+    y se mezcl\xF3 en el piso con otras llaves."

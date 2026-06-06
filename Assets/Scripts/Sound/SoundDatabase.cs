@@ -10,20 +10,38 @@ public enum UIClipType
 public enum SFXType
 {
     Undefined,
-
+    PlayerJump,
+    PlayerCrouch,
+    PlayerGrab,
+    PlayerDrop,
+    PlayerSprint,
+    PlayerDamage,
+    DoorOpen,
+    DoorClose,
+    KeyGrab,
+    PageGrab,
+    PageOpen,
+    LanternOn,
+    LanternOff,
+    OilOver,
+    RefillOil,
+    GrabOil
 }
 
 public enum MusicType
 {
     Undefined,
-
+    Ambient1,
+    Ambient2,
+    Ambient3,
+    Ambient4
 }
 
 [Serializable]
 public struct UIClipData
 {
     public UIClipType type;
-    public AudioClip clip;
+    public AudioClip[] clips;
 }
 
 [Serializable]
@@ -58,7 +76,13 @@ public class SoundDatabase : ScriptableObject
         foreach (UIClipData data in uiClipList)
         {
             if (data.type == type)
-                return data.clip;
+            {
+                if (data.clips == null || data.clips.Length == 0)
+                    return null;
+
+                int randomIndex = UnityEngine.Random.Range(0, data.clips.Length);
+                return data.clips[randomIndex];
+            }
         }
 
         Debug.LogWarning($"UI Clip not found for type: {type}");

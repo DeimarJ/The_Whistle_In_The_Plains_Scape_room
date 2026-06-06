@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: cbbf2cb6e9084a545a5b2352907da401
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 8
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319759
+  packageName: Horror/Thriller Music Loops
+  packageVersion: 1.0
+  assetPath: Assets/Yuriy Efimenko/HorrorThriller Music Loops/Ambient 2 - Action
+    1/Action 1/Version 1/Action 1 v.1 - Loop (70bpm).wav
+  uploadId: 755487

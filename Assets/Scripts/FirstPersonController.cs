@@ -213,7 +213,7 @@ public class FirstPersonController : MonoBehaviour
         if (input.JumpPressed && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+            SoundManager.Instance?.PlaySFX(SFXType.PlayerJump);
             input.ConsumeJump();
         }
     }
@@ -305,11 +305,15 @@ public class FirstPersonController : MonoBehaviour
     public void GrabObject(GrabbableObject grabbable)
     {
         GetHand(grabbable.Hand).GrabObject(grabbable);
+
+        SoundManager.Instance?.PlaySFX(SFXType.PlayerGrab);
     }
 
     public void DropObject(HandType hand)
     {
         GetHand(hand).DropObject();
+
+        SoundManager.Instance?.PlaySFX(SFXType.PlayerDrop);
     }
 
     private PlayerHand GetHand(HandType hand)

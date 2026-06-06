@@ -12,6 +12,7 @@ public class PickupObject : InteractableObject
     [Header("Rewards")]
     [SerializeField]
     private List<ResourceAmount> rewards = new();
+    [SerializeField] private SFXType grabSound = SFXType.GrabOil;
 
     public override void Interact(FirstPersonController player)
     {
@@ -23,6 +24,7 @@ public class PickupObject : InteractableObject
             );
         }
 
+        SoundManager.Instance?.PlaySFX(grabSound);
         Destroy(gameObject);
     }
 }
