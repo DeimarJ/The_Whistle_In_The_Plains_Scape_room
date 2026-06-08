@@ -10,8 +10,10 @@ public enum UIClipType
 public enum SFXType
 {
     Undefined,
+    PlayerSteps,
     PlayerJump,
     PlayerCrouch,
+    PlayerCrouchStep,
     PlayerGrab,
     PlayerDrop,
     PlayerSprint,

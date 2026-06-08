@@ -39,6 +39,9 @@ MonoBehaviour:
   sfxClipList:
   - type: 1
     clips:
+    - {fileID: 8300000, guid: 165fe6c457d9c3746ab2d0f1e5890f1e, type: 3}
+  - type: 2
+    clips:
     - {fileID: 8300000, guid: 4dd3709bc57e142658a6b53f15346ce6, type: 3}
     - {fileID: 8300000, guid: 205be67afd3eb43a18e9e78c60a271f1, type: 3}
     - {fileID: 8300000, guid: aab0b21cf44ea4d1881a3f5fe1bc4a27, type: 3}
@@ -54,8 +57,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b1790fe4dfa754e96a722bad2b5aaff1, type: 3}
   - type: 4
     clips:
-    - {fileID: 8300000, guid: 334441e4b58b24658beba204d6780d95, type: 3}
-    - {fileID: 8300000, guid: 4fda5a4647ac9401c99bba5fa28a3170, type: 3}
+    - {fileID: 8300000, guid: 84d6394d3b874154fa0329d5028d533e, type: 3}
+  - type: 16
+    clips:
+    - {fileID: 8300000, guid: c2b455bf7ef9d52478b307e5977e5cbd, type: 3}
   - type: 5
     clips:
     - {fileID: 8300000, guid: f30387194582d48e5a0bfa2625403e7c, type: 3}
