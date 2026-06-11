@@ -36,6 +36,7 @@ public class FirstPersonController : MonoBehaviour
     [Header("Hands")]
     [SerializeField] private PlayerHand leftHand;
     [SerializeField] private PlayerHand rightHand;
+    [SerializeField] private Animator animator;
 
     [Header("Interaction")]
     [SerializeField] private Camera playerCamera;
@@ -336,14 +337,28 @@ public class FirstPersonController : MonoBehaviour
     public void GrabObject(GrabbableObject grabbable)
     {
         GetHand(grabbable.Hand).GrabObject(grabbable);
-
+        AnimGrabObject(grabbable.Hand,true);
         SoundManager.Instance?.PlaySFX(SFXType.PlayerGrab);
+    }
+
+    public void AnimGrabObject(HandType hand,bool state)
+    {
+            if (hand == HandType.Left)
+            {
+                SetLeftHand(state);
+            }
+            else
+            {
+                SetRightHand(state);
+            }
+
+        
     }
 
     public void DropObject(HandType hand)
     {
         GetHand(hand).DropObject();
-
+        AnimGrabObject(hand, false);
         SoundManager.Instance?.PlaySFX(SFXType.PlayerDrop);
     }
 
@@ -503,6 +518,16 @@ Debug.DrawRay(
             currentTarget = null;
 
         }
+    }
+
+    public void SetLeftHand(bool active)
+    {
+        animator.SetLayerWeight(1, active ? 1f : 0f);
+    }
+
+    public void SetRightHand(bool active)
+    {
+        animator.SetLayerWeight(2, active ? 1f : 0f);
     }
 
 }
