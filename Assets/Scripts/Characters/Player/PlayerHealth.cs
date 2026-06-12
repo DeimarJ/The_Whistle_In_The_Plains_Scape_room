@@ -7,9 +7,6 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
 
-    [Header("UI")]
-    public Slider healthBar;          // Arrastra tu Slider de UI aquí
-
     [Header("Invincibility Frames")]
     public float invincibilityTime = 0.5f;   // Segundos de invulnerabilidad tras recibir daño
     private float lastDamageTime = -999f;
@@ -21,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead = false;
     private Animator anim;
     private Image DamageFlash => MainScene.MainCanvas.HUD.DamageFlash;
+    private Slider HealthBar => MainScene.MainCanvas.HUD.HealthBar;
     void Start()
     {
         currentHealth = maxHealth;
@@ -64,8 +62,13 @@ public class PlayerHealth : MonoBehaviour
 
     void UpdateHealthBar()
     {
-        if (healthBar != null)
-            healthBar.value = currentHealth;
+        if (HealthBar != null)
+        {
+            if (HealthBar.value!= currentHealth)
+            {
+                HealthBar.value = currentHealth;
+            }
+        }
     }
 
     System.Collections.IEnumerator FlashDamage()

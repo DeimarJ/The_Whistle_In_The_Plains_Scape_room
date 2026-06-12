@@ -9608,4 +9608,5 @@ MonoBehaviour:
   m_onCancelSound: 1
   m_consumableSelector: {fileID: 2108024656684707700}
   m_damageFlash: {fileID: 7594069656469580102}
+  m_healthBar: {fileID: 2228127577754138335}
   m_interactionPrompt: {fileID: 2703126964907804964}
