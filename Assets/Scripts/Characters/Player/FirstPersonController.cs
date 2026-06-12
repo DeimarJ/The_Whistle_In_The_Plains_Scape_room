@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(CharacterController))]
@@ -8,6 +9,7 @@ public class FirstPersonController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform cameraHolder;
     [SerializeField] private PlayerInputHandler input;
+    [SerializeField] private PlayerHealth playerHealth;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 4f;
@@ -29,7 +31,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private LayerMask ceilingMask;
     [SerializeField] private float ceilingCheckDistance = 0.2f;
 
-    [Header("Camera")] 
+    [Header("Camera")]
     [SerializeField] private float standingCameraHeight = 1.6f;
     [SerializeField] private float crouchingCameraHeight = 0.8f;
 
@@ -43,7 +45,6 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float interactDistance = 3f;
     [SerializeField] private float interactRadius = 0.5f;
     [SerializeField] private LayerMask interactMask;
-    [SerializeField] private TMP_Text interactionPrompt;
 
     [Header("Inventory")]
     [SerializeField] private Inventory inventory;
@@ -79,7 +80,7 @@ public class FirstPersonController : MonoBehaviour
     {
         SetCharacterHeight(standingHeight);
         SetCameraHeight(standingCameraHeight);
-        interactionPrompt?.gameObject.SetActive(false);
+        MainScene.MainCanvas.HUD.InteractionPrompt?.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -87,10 +88,10 @@ public class FirstPersonController : MonoBehaviour
         HandleMovement();
         HandleJump();
         HandleCrouch();
+        HandleConsumableSelection();
         HandleLantern();
         HandleInteraction();
         HandleDrop();
-        HandleLanternRefill();
         HandleTogglePause();
         HandleCancel();
         ApplyGravity();
@@ -166,36 +167,7 @@ public class FirstPersonController : MonoBehaviour
 
         lantern.ToggleLantern();
     }
-    private void HandleLanternRefill()
-    {
-        if (!input.RefillPressed)
-        {
-            return;
-        }
 
-        input.ConsumeRefill();
-
-        Lantern lantern = GetEquippedLantern();
-
-        if (lantern == null)
-        {
-            return;
-        }
-
-        if (!inventory.HasResource(ResourceType.Oil))
-        {
-            return;
-        }
-
-        bool refilled = lantern.RefillOil(50f);
-
-        if (!refilled)
-        {
-            return;
-        }
-
-        inventory.ConsumeResource(ResourceType.Oil,1);
-    }
     private Lantern GetEquippedLantern()
     {
         if (rightHand.HeldObject != null)
@@ -337,24 +309,22 @@ public class FirstPersonController : MonoBehaviour
     public void GrabObject(GrabbableObject grabbable)
     {
         GetHand(grabbable.Hand).GrabObject(grabbable);
-        AnimGrabObject(grabbable.Hand,true);
+        AnimGrabObject(grabbable.Hand, true);
         SoundManager.Instance?.PlaySFX(SFXType.PlayerGrab);
     }
-
-    public void AnimGrabObject(HandType hand,bool state)
+    public void AnimGrabObject(HandType hand, bool state)
     {
-            if (hand == HandType.Left)
-            {
-                SetLeftHand(state);
-            }
-            else
-            {
-                SetRightHand(state);
-            }
+        if (hand == HandType.Left)
+        {
+            SetLeftHand(state);
+        }
+        else
+        {
+            SetRightHand(state);
+        }
 
-        
+
     }
-
     public void DropObject(HandType hand)
     {
         GetHand(hand).DropObject();
@@ -384,12 +354,12 @@ public class FirstPersonController : MonoBehaviour
     playerCamera.transform.forward
 );
 
-Debug.DrawRay(
-    ray.origin,
-    ray.direction * interactDistance,
-    Color.red,
-    1f
-);
+        Debug.DrawRay(
+            ray.origin,
+            ray.direction * interactDistance,
+            Color.red,
+            1f
+        );
 
         // Primero raycast exacto
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactMask))
@@ -452,6 +422,16 @@ Debug.DrawRay(
             bestInteractable.Interact(this);
         }
     }
+
+    public void SetLeftHand(bool active)
+    {
+        animator.SetLayerWeight(1, active ? 1f : 0f);
+    }
+
+    public void SetRightHand(bool active)
+    {
+        animator.SetLayerWeight(2, active ? 1f : 0f);
+    }
     private void HandleTogglePause()
     {
         if (!input.PausePressed)
@@ -502,32 +482,162 @@ Debug.DrawRay(
 
             if (currentTarget != null)
             {
-                interactionPrompt?.gameObject.SetActive(true);
-                interactionPrompt.text = currentTarget.InteractionText;
+                MainScene.MainCanvas.HUD.InteractionPrompt?.gameObject.SetActive(true);
+                MainScene.MainCanvas.HUD.InteractionPrompt.text = currentTarget.InteractionText;
             }
             else
             {
-                interactionPrompt?.gameObject.SetActive(false);
+                MainScene.MainCanvas.HUD.InteractionPrompt?.gameObject.SetActive(false);
             }
 
         }
         else
         {
-            interactionPrompt?.gameObject.SetActive(false);
+            MainScene.MainCanvas.HUD.InteractionPrompt?.gameObject.SetActive(false);
             currentTarget?.Highlight(false);
             currentTarget = null;
 
         }
     }
-
-    public void SetLeftHand(bool active)
+    private void HandleConsumableUse()
     {
-        animator.SetLayerWeight(1, active ? 1f : 0f);
+        if (!input.RefillPressed)
+        {
+            return;
+        }
+
+        input.ConsumeRefill();
+
+        ConsumableData consumable =
+            MainScene.MainCanvas.HUD.ConsumableSelector.SelectedConsumable;
+
+        switch (consumable.effectType)
+        {
+            case ConsumableEffectType.Oil:
+                HandleLanternRefill(consumable);
+                break;
+
+            case ConsumableEffectType.Heal:
+                HandleTakeMedicine(consumable);
+                break;
+
+            case ConsumableEffectType.Chili:
+                HandleUseChili(consumable);
+                break;
+        }
+    }
+    private void HandleTakeMedicine(
+    ConsumableData consumable)
+    {
+        if (playerHealth == null)
+        {
+            return;
+        }
+
+        if (!inventory.HasResource(
+            consumable.resourceType))
+        {
+            return;
+        }
+
+        bool healed =
+            playerHealth.Heal(consumable.amount);
+
+        if (!healed)
+        {
+            return;
+        }
+
+        inventory.ConsumeResource(
+            consumable.resourceType,
+            1);
+    }
+    private void HandleLanternRefill(
+    ConsumableData consumable)
+    {
+        Lantern lantern = GetEquippedLantern();
+
+        if (lantern == null)
+        {
+            return;
+        }
+
+        if (!inventory.HasResource(
+            consumable.resourceType))
+        {
+            return;
+        }
+
+        bool refilled =
+            lantern.RefillOil(consumable.amount);
+
+        if (!refilled)
+        {
+            return;
+        }
+
+        inventory.ConsumeResource(
+            consumable.resourceType,
+            1);
     }
 
-    public void SetRightHand(bool active)
+    private void HandleUseChili(
+    ConsumableData consumable)
     {
-        animator.SetLayerWeight(2, active ? 1f : 0f);
+        if (!inventory.HasResource(
+            consumable.resourceType))
+        {
+            return;
+        }
+
+        inventory.ConsumeResource(
+            consumable.resourceType,
+            1);
+
+        // Aplicar efecto usando consumable.amount
+    }
+
+    private void HandleConsumableSelection()
+    {
+        if (input.NextConsumablePressed)
+        {
+            if (MainScene.MainCanvas != null)
+            {
+                MainScene.MainCanvas.HUD.ConsumableSelector.Next();
+            }
+
+            input.ConsumeNextConsumable();
+        }
+
+        if (input.PreviousConsumablePressed)
+        {
+            if (MainScene.MainCanvas != null)
+            {
+                MainScene.MainCanvas.HUD.ConsumableSelector.Previous();
+            }
+
+            input.ConsumePreviousConsumable();
+        }
+
+        if (input.NextConsumableVariantPressed)
+        {
+            if (MainScene.MainCanvas != null)
+            {
+                MainScene.MainCanvas.HUD.ConsumableSelector.NextVariant();
+            }
+
+            input.ConsumeNextConsumableVariant();
+        }
+
+        if (input.PreviousConsumableVariantPressed)
+        {
+            if (MainScene.MainCanvas != null)
+            {
+                MainScene.MainCanvas.HUD.ConsumableSelector.PreviousVariant();
+            }
+
+            input.ConsumePreviousConsumableVariant();
+        }
     }
 
 }

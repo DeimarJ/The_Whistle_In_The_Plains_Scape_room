@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ResourceType
 {
-    Oil,
-    Medicine,
-    Ammo
+    SmallOil,
+    BigOil,
+    SmallMedice,
+    MediumMedicine,
+    BigMedicine,
+    Chili
 }
 
 public class Inventory : MonoBehaviour
@@ -49,6 +52,7 @@ public class Inventory : MonoBehaviour
         }
 
         entry.amount += amount;
+        MainScene.MainCanvas?.HUD.ConsumableSelector.Refresh();
     }
 
     public bool ConsumeResource(ResourceType type, int amount)
@@ -63,6 +67,7 @@ public class Inventory : MonoBehaviour
 
         entry.amount -= amount;
 
+        MainScene.MainCanvas?.HUD.ConsumableSelector.Refresh();
         return true;
     }
 

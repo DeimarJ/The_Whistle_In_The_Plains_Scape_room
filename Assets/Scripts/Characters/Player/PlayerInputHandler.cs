@@ -16,6 +16,10 @@ public class PlayerInputHandler : MonoBehaviour
     public bool RefillPressed { get; private set; }
     public bool PausePressed { get; private set; }
     public bool CancelPressed { get; private set; }
+    public bool NextConsumablePressed { get; private set; }
+    public bool PreviousConsumablePressed { get; private set; }
+    public bool NextConsumableVariantPressed { get; private set; }
+    public bool PreviousConsumableVariantPressed { get; private set; }
 
     private PlayerInputActions inputActions;
 
@@ -47,6 +51,12 @@ public class PlayerInputHandler : MonoBehaviour
         inputActions.Player.Refill.performed += ctx => RefillPressed = true;
         inputActions.Player.Pause.performed += ctx => PausePressed = true;
         inputActions.UI.Cancel.performed += ctx => CancelPressed = true;
+
+        inputActions.Player.Next.performed += ctx => NextConsumablePressed = true;
+        inputActions.Player.Previous.performed += ctx => PreviousConsumablePressed = true;
+
+        inputActions.Player.NextVariant.performed += ctx => NextConsumableVariantPressed = true;
+        inputActions.Player.PreviousVariant.performed += ctx => PreviousConsumableVariantPressed = true;
     }
 
     public void ConsumeJump()
@@ -77,6 +87,25 @@ public class PlayerInputHandler : MonoBehaviour
     {
         CancelPressed = false;
     }
+
+    public void ConsumeNextConsumableVariant()
+    {
+        NextConsumableVariantPressed = false;
+    }
+
+    public void ConsumePreviousConsumableVariant()
+    {
+        PreviousConsumableVariantPressed = false;
+    }
+    public void ConsumeNextConsumable()
+    {
+        NextConsumablePressed = false;
+    }
+
+    public void ConsumePreviousConsumable()
+    {
+        PreviousConsumablePressed = false;
+    }
     private void OnDisable()
     {
         inputActions.Disable();
@@ -95,4 +124,5 @@ public class PlayerInputHandler : MonoBehaviour
         LookInput = Vector2.zero;
         SprintHeld = false;
     }
+
 }

@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupObject
   rewards:
   - type: 0
-    amount: 50
+    amount: 1
   grabSound: 16
 --- !u!114 &909073372261032806
 MonoBehaviour:
