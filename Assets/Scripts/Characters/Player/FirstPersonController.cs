@@ -350,9 +350,7 @@ public class FirstPersonController : MonoBehaviour
             else
             {
                 SetRightHand(state);
-            }
-
-        
+            }  
     }
 
     public void DropObject(HandType hand)
