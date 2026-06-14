@@ -502,6 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FirstPersonController
   cameraHolder: {fileID: 7194820164391717976}
   input: {fileID: 4553368087027587304}
+  playerHealth: {fileID: 6066613723789539654}
   walkSpeed: 4
   sprintSpeed: 7
   crouchSpeed: 2
@@ -510,7 +511,7 @@ MonoBehaviour:
   mouseSensitivity: 6
   maxLookAngle: 80
   standingHeight: 1.7
-  crouchingHeight: 1
+  crouchingHeight: 0.7
   crouchTransitionSpeed: 8
   ceilingMask:
     serializedVersion: 2
@@ -518,8 +519,8 @@ MonoBehaviour:
   ceilingCheckDistance: 0.2
   standingCameraHeight: 1.6
   crouchingCameraHeight: 0.8
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
+  leftHand: {fileID: 2318401435075904543}
+  rightHand: {fileID: 2900922671209670479}
   animator: {fileID: 8972621927451785666}
   playerCamera: {fileID: 9086013775129936325}
   interactDistance: 3
@@ -527,7 +528,6 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 1
-  interactionPrompt: {fileID: 0}
   inventory: {fileID: 4259493977593047825}
   walkStepInterval: 0.5
   sprintStepInterval: 0.3
@@ -557,10 +557,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   resources:
+  - type: 2
+    amount: 0
   - type: 0
-    amount: 5
-  - type: 1
-    amount: 5
+    amount: 0
   unlockedFiles: []
 --- !u!114 &6066613723789539654
 MonoBehaviour:
@@ -576,7 +576,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   healthBar: {fileID: 0}
-  damageFlash: {fileID: 0}
   invincibilityTime: 0.5
   respawnDelay: 3
   respawnPoint: {fileID: 0}
@@ -674,19 +673,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.024001874
+      value: -0.00120461
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.3760046
+      value: -1.3540236
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.17900631
+      value: 0.072054565
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9659258
+      value: 0.9961947
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -694,7 +693,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.2588191
+      value: 0.08715578
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalRotation.z
@@ -706,7 +705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e3201bca9396e24fbd1a7c2bbccf6a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

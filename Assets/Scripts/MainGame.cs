@@ -14,10 +14,13 @@ public enum PauseReason
 public class MainGame : MonoBehaviour
 {
     public static MainGame Instance { get; private set; }
+    
     [SerializeField] private MusicType musicType = MusicType.Ambient1;
+    [SerializeField] private ConsumableDatabase consumableDatabase = default;
 
     private static readonly HashSet<PauseReason> pauseReasons = new();
 
+    public static ConsumableDatabase ConsumableDatabase => Instance.consumableDatabase;
     public static bool IsPaused => pauseReasons.Count > 0;
 
     private void Awake()

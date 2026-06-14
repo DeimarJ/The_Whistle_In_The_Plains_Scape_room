@@ -10,10 +10,8 @@ public enum UIClipType
 public enum SFXType
 {
     Undefined,
-    PlayerSteps,
     PlayerJump,
     PlayerCrouch,
-    PlayerCrouchStep,
     PlayerGrab,
     PlayerDrop,
     PlayerSprint,
@@ -27,7 +25,9 @@ public enum SFXType
     LanternOff,
     OilOver,
     RefillOil,
-    GrabOil
+    GrabOil,
+    PlayerSteps,
+    PlayerCrouchStep,
 }
 
 public enum MusicType

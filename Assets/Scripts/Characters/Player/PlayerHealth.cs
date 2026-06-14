@@ -7,10 +7,6 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
 
-    [Header("UI")]
-    public Slider healthBar;          // Arrastra tu Slider de UI aquí
-    public Image damageFlash;         // Image negro/rojo fullscreen para flash de daño (opcional)
-
     [Header("Invincibility Frames")]
     public float invincibilityTime = 0.5f;   // Segundos de invulnerabilidad tras recibir daño
     private float lastDamageTime = -999f;
@@ -21,7 +17,8 @@ public class PlayerHealth : MonoBehaviour
 
     private bool isDead = false;
     private Animator anim;
-
+    private Image DamageFlash => MainScene.MainCanvas.HUD.DamageFlash;
+    private Slider HealthBar => MainScene.MainCanvas.HUD.HealthBar;
     void Start()
     {
         currentHealth = maxHealth;
@@ -45,34 +42,41 @@ public class PlayerHealth : MonoBehaviour
         if (anim != null)
             anim.SetTrigger("Hit");
 
-        if (damageFlash != null)
+        if (DamageFlash != null)
             StartCoroutine(FlashDamage());
 
         if (currentHealth <= 0f)
             Die();
     }
 
-    public void Heal(float amount)
+    public bool Heal(float amount)
     {
-        if (isDead) return;
+        if (isDead) { return false; }
+        if (currentHealth >= maxHealth) { return false; }
 
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         UpdateHealthBar();
+        return true;
     }
 
     void UpdateHealthBar()
     {
-        if (healthBar != null)
-            healthBar.value = currentHealth;
+        if (HealthBar != null)
+        {
+            if (HealthBar.value!= currentHealth)
+            {
+                HealthBar.value = currentHealth;
+            }
+        }
     }
 
     System.Collections.IEnumerator FlashDamage()
     {
-        Color c = damageFlash.color;
-        damageFlash.color = new Color(c.r, c.g, c.b, 0.4f);
+        Color c = DamageFlash.color;
+        DamageFlash.color = new Color(c.r, c.g, c.b, 0.4f);
         yield return new WaitForSeconds(0.1f);
-        damageFlash.color = new Color(c.r, c.g, c.b, 0f);
+        DamageFlash.color = new Color(c.r, c.g, c.b, 0f);
     }
 
     void Die()
