@@ -89,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
         HandleJump();
         HandleCrouch();
         HandleConsumableSelection();
+        HandleConsumableUse();
         HandleLantern();
         HandleInteraction();
         HandleDrop();
@@ -146,9 +147,6 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    public void GiveLantern()
-    {
-    }
     private void HandleLantern()
     {
         if (!input.LanternPressed)
@@ -510,6 +508,8 @@ public class FirstPersonController : MonoBehaviour
 
         ConsumableData consumable =
             MainScene.MainCanvas.HUD.ConsumableSelector.SelectedConsumable;
+
+        if (consumable == null) { return; }
 
         switch (consumable.effectType)
         {

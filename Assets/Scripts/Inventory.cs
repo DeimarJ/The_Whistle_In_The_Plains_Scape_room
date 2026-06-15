@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     [Header("Files")]
     [SerializeField]
     private List<FileData> unlockedFiles = new();
+    public IReadOnlyList<ResourceEntry> Resources => resources;
     public int GetResource(ResourceType type)
     {
         ResourceEntry entry =

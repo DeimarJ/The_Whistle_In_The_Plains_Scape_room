@@ -31132,6 +31132,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4259493977593047825, guid: 28459854bc037fc46848f45745028ae8, type: 3}
+      propertyPath: resources.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5104880091773242626, guid: 28459854bc037fc46848f45745028ae8, type: 3}
       propertyPath: m_Name
       value: Player
@@ -84657,6 +84661,10 @@ PrefabInstance:
     - target: {fileID: 5218454701903069236, guid: 9d7e6f8715e831a408695a7efec0040b, type: 3}
       propertyPath: m_Name
       value: Lantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092096797122098311, guid: 9d7e6f8715e831a408695a7efec0040b, type: 3}
+      propertyPath: currentOil
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7915395389363978081, guid: 9d7e6f8715e831a408695a7efec0040b, type: 3}
       propertyPath: cameraToLookAt
