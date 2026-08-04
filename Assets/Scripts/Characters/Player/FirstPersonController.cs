@@ -40,6 +40,10 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private PlayerHand rightHand;
     [SerializeField] private Animator animator;
 
+    [Header("Swimming")]
+    private bool isSwimming = false;
+    [SerializeField] private float swimSpeed=3f;
+
     [Header("Interaction")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float interactDistance = 3f;
@@ -68,6 +72,7 @@ public class FirstPersonController : MonoBehaviour
     private bool isGrounded;
 
     private IInteractuable currentTarget;
+    
 
     private void Awake()
     {
@@ -85,7 +90,14 @@ public class FirstPersonController : MonoBehaviour
     private void Update()
     {
         HandleLook();
-        HandleMovement();
+        if (isSwimming)
+        {
+            HandleSwimming();
+        }
+        else
+        {
+            HandleMovement();
+        }
         HandleJump();
         HandleCrouch();
         HandleConsumableSelection();
@@ -146,6 +158,44 @@ public class FirstPersonController : MonoBehaviour
             stepTimer = 0f;
         }
     }
+
+    public void SetSwimming(bool swimming)
+    {
+        isSwimming = swimming;
+        animator.SetBool("isSwimming", swimming);
+    }
+
+    private void HandleSwimming()
+    {
+        // Usamos el mismo input.MoveInput que en HandleMovement
+        Vector2 moveInput = input.MoveInput;
+
+        // Dirección relativa al transform del player
+        Vector3 move =
+            transform.right * moveInput.x +
+            transform.forward * moveInput.y;
+
+        // Velocidad de nado (puedes parametrizarla como swimSpeed)
+        float currentSpeed = swimSpeed;
+
+        // Movimiento en el agua
+        controller.Move(move * currentSpeed * Time.deltaTime);
+
+        // Detectar si se está moviendo
+        bool isMoving = moveInput.sqrMagnitude > 0.01f;
+
+        if (isMoving)
+        {
+            animator.SetBool("isSwimmingIdle", false);
+            animator.SetBool("isSwimmingForward", true);
+        }
+        else
+        {
+            animator.SetBool("isSwimmingForward", false);
+            animator.SetBool("isSwimmingIdle", true);
+        }
+    }
+
 
     private void HandleLantern()
     {
