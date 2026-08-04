@@ -1,23 +1,29 @@
 using UnityEngine;
+using UnityEngine.Splines;
+using Unity.Mathematics;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class RiverCurrent : MonoBehaviour
 {
     [Header("Corriente")]
-    [SerializeField] private Vector3 flowDirection = Vector3.forward; // dirección del cauce, normalizada en Awake
     [SerializeField] private float currentForce = 4f;
-    [SerializeField] private float maxPushSpeed = 6f; // tope de velocidad que la corriente puede imponer
+    [SerializeField] private float maxPushSpeed = 6f;
 
     [Header("Profundidad / Inmersión")]
-    [SerializeField] private float waterSurfaceY; // altura del agua en mundo (Y), ajustar según tu Water Surface
-    [SerializeField] private float swimThreshold = 1.2f; // cuánto debe hundirse el personaje para considerarse "nadando"
+    [SerializeField] private float waterSurfaceY = 0f;
+    [SerializeField] private float swimThreshold = 1.2f;
 
     [Header("Tags afectados")]
     [SerializeField] private string playerTag = "Player";
 
+    [Header("Spline del río")]
+    [SerializeField] private SplineContainer splineContainer; // arrastrá el GameObject River acá
+
     private void Awake()
     {
-        flowDirection = flowDirection.normalized;
+        // Si no se asignó el spline, intentamos buscarlo en el padre
+        if (splineContainer == null)
+            splineContainer = GetComponentInParent<SplineContainer>();
     }
 
     private void OnTriggerStay(Collider other)
@@ -27,22 +33,18 @@ public class RiverCurrent : MonoBehaviour
         CharacterController cc = other.GetComponent<CharacterController>();
         if (cc == null) return;
 
+        // Dirección del flujo en el punto más cercano al jugador sobre el spline
+        Vector3 flowDirection = GetFlowAtPosition(other.transform.position);
+
         float depth = waterSurfaceY - other.transform.position.y;
-        bool isSwimming = depth >= swimThreshold;
+        float immersionFactor = Mathf.Clamp01(depth / Mathf.Max(swimThreshold, 0.01f));
 
-        // Empuje de la corriente (escalado según qué tan sumergido está)
-        float immersionFactor = Mathf.Clamp01(depth / swimThreshold);
         Vector3 push = flowDirection * currentForce * immersionFactor * Time.deltaTime;
-
-        // Aplicamos el empuje como movimiento adicional sin pisar el input del jugador
         cc.Move(Vector3.ClampMagnitude(push, maxPushSpeed * Time.deltaTime));
 
-        // Notificamos al jugador si tiene un componente que reaccione a estar nadando
         PlayerWaterState waterState = other.GetComponent<PlayerWaterState>();
         if (waterState != null)
-        {
-            waterState.SetSwimming(isSwimming, depth);
-        }
+            waterState.SetSwimming(depth >= swimThreshold, depth);
     }
 
     private void OnTriggerExit(Collider other)
@@ -52,10 +54,34 @@ public class RiverCurrent : MonoBehaviour
         if (waterState != null) waterState.SetSwimming(false, 0f);
     }
 
+    private Vector3 GetFlowAtPosition(Vector3 worldPos)
+    {
+        if (splineContainer == null) return Vector3.forward;
+
+        Spline spline = splineContainer.Spline;
+
+        // Convertimos posición del jugador a espacio local del SplineContainer
+        Vector3 localPos = splineContainer.transform.InverseTransformPoint(worldPos);
+
+        // Encontramos el punto más cercano en el spline
+        SplineUtility.GetNearestPoint(spline, (float3)(Vector3)localPos,
+            out _, out float t);
+
+        // Obtenemos la tangente (dirección del flujo) en ese punto
+        spline.Evaluate(t, out _, out float3 tangent, out _);
+
+        // Convertimos la tangente a espacio mundo y la proyectamos en el plano horizontal
+        Vector3 worldTangent = splineContainer.transform.TransformDirection((Vector3)tangent);
+        worldTangent.y = 0f;
+
+        return worldTangent.sqrMagnitude > 0.001f ? worldTangent.normalized : Vector3.forward;
+    }
+
     private void OnDrawGizmosSelected()
     {
+        if (splineContainer == null) return;
         Gizmos.color = Color.cyan;
-        Vector3 dir = Application.isPlaying ? flowDirection : flowDirection.normalized;
-        Gizmos.DrawRay(transform.position, dir * 5f);
+        Vector3 flow = GetFlowAtPosition(transform.position);
+        Gizmos.DrawRay(transform.position, flow * 5f);
     }
 }
