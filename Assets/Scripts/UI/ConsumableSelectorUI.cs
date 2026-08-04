@@ -30,12 +30,7 @@ public class ConsumableSelectorUI : MonoBehaviour
 
     private Dictionary<ConsumableEffectType, int>
     selectedIndexPerEffect;
-    private readonly ConsumableEffectType[] effects =
-{
-    ConsumableEffectType.Oil,
-    ConsumableEffectType.Heal,
-    ConsumableEffectType.Chili
-};
+    private List<ConsumableEffectType> availableEffects = new();
     private int currentEffectIndex;
 
     private Inventory Inventory => MainScene.Player.Inventory;
@@ -44,8 +39,13 @@ public class ConsumableSelectorUI : MonoBehaviour
     {
         get
         {
+            if (availableEffects.Count == 0)
+            {
+                return null;
+            }
+
             ConsumableEffectType effect =
-                effects[currentEffectIndex];
+                availableEffects[currentEffectIndex];
 
             int variantIndex =
                 selectedIndexPerEffect[effect];
@@ -55,52 +55,28 @@ public class ConsumableSelectorUI : MonoBehaviour
     }
     private void Start()
     {
-        consumablesByEffect =
-            new Dictionary<ConsumableEffectType,
-            List<ConsumableData>>
-        {
-        {
-            ConsumableEffectType.Oil,
-            new List<ConsumableData>
-            {
-                Database.Get(ResourceType.SmallOil),
-                Database.Get(ResourceType.BigOil)
-            }
-        },
-        {
-            ConsumableEffectType.Heal,
-            new List<ConsumableData>
-            {
-                Database.Get(ResourceType.SmallMedice),
-                Database.Get(ResourceType.MediumMedicine),
-                Database.Get(ResourceType.BigMedicine)
-            }
-        },
-        {
-            ConsumableEffectType.Chili,
-            new List<ConsumableData>
-            {
-                Database.Get(ResourceType.Chili)
-            }
-        }
-        };
-
         selectedIndexPerEffect =
-            new Dictionary<ConsumableEffectType, int>
-        {
-        { ConsumableEffectType.Oil, 0 },
-        { ConsumableEffectType.Heal, 0 },
-        { ConsumableEffectType.Chili, 0 }
-        };
+    new Dictionary<ConsumableEffectType, int>
+{
+    { ConsumableEffectType.Oil, 0 },
+    { ConsumableEffectType.Heal, 0 },
+    { ConsumableEffectType.Chili, 0 }
+};
 
         Refresh();
     }
 
     public void Next()
     {
+
+        if (availableEffects.Count == 0)
+        {
+            return;
+        }
+
         currentEffectIndex++;
 
-        if (currentEffectIndex >= effects.Length)
+        if (currentEffectIndex >= availableEffects.Count)
         {
             currentEffectIndex = 0;
         }
@@ -109,11 +85,17 @@ public class ConsumableSelectorUI : MonoBehaviour
     }
     public void Previous()
     {
+
+        if (availableEffects.Count == 0)
+        {
+            return;
+        }
+
         currentEffectIndex--;
 
         if (currentEffectIndex < 0)
         {
-            currentEffectIndex = effects.Length - 1;
+            currentEffectIndex = availableEffects.Count - 1;
         }
 
         Refresh();
@@ -121,8 +103,14 @@ public class ConsumableSelectorUI : MonoBehaviour
 
     public void NextVariant()
     {
+
+        if (availableEffects.Count == 0)
+        {
+            return;
+        }
+
         ConsumableEffectType effect =
-            effects[currentEffectIndex];
+            availableEffects[currentEffectIndex];
 
         List<ConsumableData> variants =
             consumablesByEffect[effect];
@@ -149,8 +137,13 @@ public class ConsumableSelectorUI : MonoBehaviour
     public void PreviousVariant()
     {
 
+        if (availableEffects.Count == 0)
+        {
+            return;
+        }
+
         ConsumableEffectType effect =
-            effects[currentEffectIndex];
+            availableEffects[currentEffectIndex];
 
         List<ConsumableData> variants =
             consumablesByEffect[effect];
@@ -177,10 +170,31 @@ public class ConsumableSelectorUI : MonoBehaviour
 
     public void Refresh()
     {
-        int effectCount = effects.Length;
+        RebuildConsumables();
+
+        if (availableEffects.Count == 0)
+        {
+            leftEffectContainer.SetActive(false);
+            rightEffectContainer.SetActive(false);
+
+            centerIcon.enabled = false;
+
+            centerAmount.text = "";
+            centerValue.text = "";
+
+            upArrow.gameObject.SetActive(false);
+            downArrow.gameObject.SetActive(false);
+
+            return;
+        }
+
+        centerIcon.enabled = true;
+
+        int effectCount = availableEffects.Count;
 
         ConsumableEffectType centerEffect =
-            effects[currentEffectIndex];
+            availableEffects[currentEffectIndex];
+
 
         SetSlot(
             centerIcon,
@@ -199,7 +213,7 @@ public class ConsumableSelectorUI : MonoBehaviour
                 (currentEffectIndex + 1) % 2;
 
             ConsumableEffectType otherEffect =
-                effects[otherIndex];
+                availableEffects[otherIndex];
 
             SetSlot(
                 leftIcon,
@@ -219,10 +233,10 @@ public class ConsumableSelectorUI : MonoBehaviour
         else
         {
             ConsumableEffectType leftEffect =
-                effects[(currentEffectIndex - 1 + effectCount) % effectCount];
+                availableEffects[(currentEffectIndex - 1 + effectCount) % effectCount];
 
             ConsumableEffectType rightEffect =
-                effects[(currentEffectIndex + 1) % effectCount];
+                availableEffects[(currentEffectIndex + 1) % effectCount];
 
             SetSlot(
                 leftIcon,
@@ -272,7 +286,7 @@ public class ConsumableSelectorUI : MonoBehaviour
     private void RefreshVariantArrows()
     {
         ConsumableEffectType currentEffect =
-            effects[currentEffectIndex];
+            availableEffects[currentEffectIndex];
 
         bool hasVariants =
             consumablesByEffect[currentEffect].Count > 1;
@@ -280,5 +294,45 @@ public class ConsumableSelectorUI : MonoBehaviour
         upArrow.gameObject.SetActive(hasVariants);
         downArrow.gameObject.SetActive(hasVariants);
     }
+    private void RebuildConsumables()
+    {
+        consumablesByEffect =
+            new Dictionary<ConsumableEffectType,
+            List<ConsumableData>>();
 
+        foreach (ConsumableEffectType effect
+            in System.Enum.GetValues(typeof(ConsumableEffectType)))
+        {
+            consumablesByEffect[effect] =
+                new List<ConsumableData>();
+        }
+
+        foreach (Inventory.ResourceEntry entry
+            in Inventory.Resources)
+        {
+            ConsumableData data =
+                Database.Get(entry.type);
+
+            if (data == null)
+            {
+                continue;
+            }
+
+            consumablesByEffect[data.effectType]
+                .Add(data);
+        }
+        availableEffects.Clear();
+
+        foreach (var pair in consumablesByEffect)
+        {
+            if (pair.Value.Count > 0)
+            {
+                availableEffects.Add(pair.Key);
+            }
+        }
+        if (currentEffectIndex >= availableEffects.Count)
+        {
+            currentEffectIndex = 0;
+        }
+    }
 }
