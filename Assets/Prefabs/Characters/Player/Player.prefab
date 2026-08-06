@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 4553368087027587304}
   - component: {fileID: 4259493977593047825}
   - component: {fileID: 6066613723789539654}
+  - component: {fileID: 9124584081596253458}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -461,6 +462,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7194820164391717976}
+  - {fileID: 7504054582705091196}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &5300456218960848759
@@ -522,6 +524,7 @@ MonoBehaviour:
   leftHand: {fileID: 2318401435075904543}
   rightHand: {fileID: 2900922671209670479}
   animator: {fileID: 8972621927451785666}
+  swimSpeed: 3
   playerCamera: {fileID: 9086013775129936325}
   interactDistance: 3
   interactRadius: 0.5
@@ -575,10 +578,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
-  healthBar: {fileID: 0}
   invincibilityTime: 0.5
   respawnDelay: 3
   respawnPoint: {fileID: 0}
+--- !u!114 &9124584081596253458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5104880091773242626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c3ee27327701044b7e86a7ed675ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerOxygen
+  oxygenDecreaseRate: 10
+  oxygenIncreaseRate: 15
+  damageInterval: 1
+  damageAmount: 5
+  maxOxygen: 100
 --- !u!1 &5211004503968535366
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +678,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHand
   socket: {fileID: 5496130179304051823}
+--- !u!1 &6758571048179122674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7504054582705091196}
+  - component: {fileID: 4921871559796749952}
+  - component: {fileID: 6656209693571978247}
+  m_Layer: 6
+  m_Name: ColliderSwim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7504054582705091196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6758571048179122674}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.049, y: 1.585, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7957213845355478910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4921871559796749952
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6758571048179122674}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.36
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6656209693571978247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6758571048179122674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe99b9577640da4a9097450dbbad42e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RiverZoneTrigger
 --- !u!1001 &3310072829153920083
 PrefabInstance:
   m_ObjectHideFlags: 0

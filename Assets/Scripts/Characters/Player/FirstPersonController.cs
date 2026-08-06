@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
@@ -43,6 +44,7 @@ public class FirstPersonController : MonoBehaviour
     [Header("Swimming")]
     private bool isSwimming = false;
     [SerializeField] private float swimSpeed=3f;
+    public event Action<bool> OnSwimmingStateChanged;
 
     [Header("Interaction")]
     [SerializeField] private Camera playerCamera;
@@ -162,38 +164,28 @@ public class FirstPersonController : MonoBehaviour
     public void SetSwimming(bool swimming)
     {
         isSwimming = swimming;
-        animator.SetBool("isSwimming", swimming);
+        OnSwimmingStateChanged?.Invoke(isSwimming);
+        animator.SetBool("IsSwimming", swimming);
+    }
+
+    public bool GetIsSwimming()
+    {
+        return isSwimming;
     }
 
     private void HandleSwimming()
     {
-        // Usamos el mismo input.MoveInput que en HandleMovement
         Vector2 moveInput = input.MoveInput;
 
-        // Dirección relativa al transform del player
         Vector3 move =
             transform.right * moveInput.x +
             transform.forward * moveInput.y;
 
-        // Velocidad de nado (puedes parametrizarla como swimSpeed)
-        float currentSpeed = swimSpeed;
+        controller.Move(move * swimSpeed * Time.deltaTime);
 
-        // Movimiento en el agua
-        controller.Move(move * currentSpeed * Time.deltaTime);
+        /*float swimMagnitude = moveInput.magnitude;
 
-        // Detectar si se está moviendo
-        bool isMoving = moveInput.sqrMagnitude > 0.01f;
-
-        if (isMoving)
-        {
-            animator.SetBool("isSwimmingIdle", false);
-            animator.SetBool("isSwimmingForward", true);
-        }
-        else
-        {
-            animator.SetBool("isSwimmingForward", false);
-            animator.SetBool("isSwimmingIdle", true);
-        }
+        animator.SetFloat("swingMagnitude", swimMagnitude);*/
     }
 
 
