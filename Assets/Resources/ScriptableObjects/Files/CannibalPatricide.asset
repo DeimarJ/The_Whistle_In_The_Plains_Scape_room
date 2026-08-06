@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4c0cfbc0567a74281bc6c08396a77c, type: 3}
+  m_Name: CannibalPatricide
+  m_EditorClassIdentifier: Assembly-CSharp::FileData
+  fileID: CannibalPatricide
+  fileName: "Patricidio Can\xEDbal"
+  content: "Peri\xF3dico de Guanarito\nOctubre de 1820\n\nLa comunidad ha sido conmocionada
+    por el horrible crimen de un hijo contra su padre. Cuentan testigos que tras
+    una discusi\xF3n, el j\xF3ven lo asesin\xF3 y le prepar\xF3 una sopa con sus
+    v\xEDsceras a su madre. \nLa mujer, horrorizada, pidi\xF3 ayuda y fue socorrida
+    por su suegro, que termin\xF3 linchando a su nieto con latigazos hasta que perdi\xF3
+    la vida.\nSe reporta que el cuerpo del asesino desapareci\xF3 al d\xEDa siguiente.
+    Definitivamente estamos en los \xFAltimos d\xEDas, cuando los hijos se enfrentan
+    con sus padres. "
