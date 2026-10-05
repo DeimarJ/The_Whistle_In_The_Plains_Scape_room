@@ -8,12 +8,12 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
 
     [Header("Invincibility Frames")]
-    public float invincibilityTime = 0.5f;   // Segundos de invulnerabilidad tras recibir daño
+    public float invincibilityTime = 0.5f;
     private float lastDamageTime = -999f;
 
     [Header("Death")]
     public float respawnDelay = 3f;
-    public Transform respawnPoint;    // Punto donde reaparece el jugador (opcional)
+    public Transform respawnPoint;
 
     private bool isDead = false;
     private Animator anim;

@@ -17,9 +17,6 @@ public class DynamicButton : MonoBehaviour
             button = GetComponent<Button>();
     }
 
-    /// <summary>
-    /// Sets button callback
-    /// </summary>
     public void SetOnClick(Action callback)
     {
         if (button == null)

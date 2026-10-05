@@ -3,7 +3,7 @@ using UnityEngine;
 public class BodyTerrainAlign : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private Transform navRoot; // el objeto con el NavMeshAgent (el padre)
+    [SerializeField] private Transform navRoot;
 
     [Header("Raycast")]
     [SerializeField] private LayerMask groundLayer;
@@ -12,7 +12,7 @@ public class BodyTerrainAlign : MonoBehaviour
 
     [Header("Suavizado")]
     [SerializeField] private float tiltSpeed = 6f;
-    [SerializeField] private float maxTiltAngle = 45f; // por seguridad, no inclinar más de esto
+    [SerializeField] private float maxTiltAngle = 45f; // por seguridad, no inclinar más de esto ya vimos que pasó cuando lo hicimos
 
     private Quaternion currentTilt = Quaternion.identity;
 
@@ -52,6 +52,6 @@ public class BodyTerrainAlign : MonoBehaviour
                                         targetTilt, Time.deltaTime * tiltSpeed);
 
         transform.rotation = currentTilt;
-        transform.position = navRoot.position; // el Model sigue al root en posición, solo cambia la rotación visual
+        transform.position = navRoot.position;
     }
 }

@@ -27,7 +27,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 7833122117494664109}
   - {fileID: 2731114592105025369}
-  m_RendererFeatureMap: ad6b866f10d7b46c594f4e5f40dee625
+  - {fileID: 8214465189284960543}
+  m_RendererFeatureMap: ad6b866f10d7b46c594f4e5f40dee6251f59244b91a4ff71
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -102,3 +103,30 @@ MonoBehaviour:
     BlurQuality: 0
     Falloff: 100
     SampleCount: -1
+--- !u!114 &8214465189284960543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99108deaa5452a4f9d5de850fbb8469, type: 3}
+  m_Name: VolumetricFogFeature
+  m_EditorClassIdentifier: Assembly-CSharp::VolumetricFogFeature
+  m_Active: 1
+  settings:
+    shader: {fileID: 4800000, guid: f809fa343afb01a49b0ccb9e77924e8a, type: 3}
+    renderPassEvent: 550
+    maxDistance: 60
+    steps: 24
+    baseHeight: 0
+    heightFalloff: 0.15
+    noiseScale: 0.08
+    noiseAmount: 0.6
+    windSpeed: 0.3
+    anisotropy: 0.45
+    ambientIntensity: 1
+    moonScatter: 0.6
+    lanternScatter: 1

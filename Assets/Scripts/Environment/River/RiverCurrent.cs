@@ -17,13 +17,11 @@ public class RiverCurrent : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
 
     [Header("Spline del río")]
-    [SerializeField] private SplineContainer splineContainer; // arrastrá el GameObject River acá
+    [SerializeField] private SplineContainer splineContainer;
 
     private void Awake()
     {
-        // Si no se asignó el spline, intentamos buscarlo en el padre
-        if (splineContainer == null)
-            splineContainer = GetComponentInParent<SplineContainer>();
+        if (splineContainer == null) splineContainer = GetComponentInParent<SplineContainer>();
     }
 
     private void OnTriggerStay(Collider other)

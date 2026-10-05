@@ -39,6 +39,27 @@ public class FootIK : MonoBehaviour
     {
         if (animator == null) return;
 
+        // Hints de rodilla — le dicen a Unity hacia dónde doblar
+        Transform leftKnee = animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg);
+        Transform rightKnee = animator.GetBoneTransform(HumanBodyBones.RightLowerLeg);
+
+        if (leftKnee != null)
+        {
+            animator.SetIKHintPositionWeight(AvatarIKHint.LeftKnee, 1f);
+            animator.SetIKHintPosition(AvatarIKHint.LeftKnee,
+                leftKnee.position + transform.forward * 0.5f);
+        }
+
+        if (rightKnee != null)
+        {
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightKnee, 1f);
+            animator.SetIKHintPosition(AvatarIKHint.RightKnee,
+                rightKnee.position + transform.forward * 0.5f);
+        }
+
+        Debug.Log("OnAnimatorIK llamado");
+        if (animator == null) return;
+
         // Pesos de IK para pies (posición y rotación)
         animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, ikWeight);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, ikWeight);
@@ -65,6 +86,7 @@ public class FootIK : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, raycastDistanceUp + raycastDistanceDown, groundLayer))
         {
+            Debug.Log($"Hit en: {hit.point}, normal: {hit.normal}, objeto: {hit.collider.name}");
             Vector3 targetPos = hit.point + Vector3.up * footOffset;
             Quaternion targetRot = Quaternion.FromToRotation(Vector3.up, hit.normal) * animator.GetIKRotation(goal);
 
@@ -73,7 +95,8 @@ public class FootIK : MonoBehaviour
         }
         else
         {
-            // no detectó suelo (ej. en el aire) -> vuelve a la pose de animación normal
+            Debug.Log("Sin hit - raycast no detecta suelo");
+            // no detectó suelo
             ikPos = Vector3.Lerp(ikPos, animPos, Time.deltaTime * positionSpeed);
             ikRot = Quaternion.Slerp(ikRot, animator.GetIKRotation(goal), Time.deltaTime * rotationSpeed);
         }
@@ -86,7 +109,7 @@ public class FootIK : MonoBehaviour
         float leftOffset = leftFootIKPos.y - animator.GetIKPosition(AvatarIKGoal.LeftFoot).y;
         float rightOffset = rightFootIKPos.y - animator.GetIKPosition(AvatarIKGoal.RightFoot).y;
 
-        // nos quedamos con el offset más bajo (la pierna que más "cae")
+        // nos quedamos con el offset más bajo
         float targetOffset = Mathf.Min(leftOffset, rightOffset);
         targetOffset = Mathf.Clamp(targetOffset, -maxHipsOffset, maxHipsOffset);
 

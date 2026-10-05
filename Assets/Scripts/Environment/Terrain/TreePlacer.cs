@@ -1,13 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// PASO 2 — Coloca árboles automáticamente sobre el Terrain según la
-/// clasificación de zonas generada por TerrainZoneClassifier.
-///
-/// Requiere que TerrainZoneClassifier ya haya corrido "Clasificar Terreno"
-/// al menos una vez (si no, este script lo ejecuta automáticamente).
-/// </summary>
 [RequireComponent(typeof(Terrain))]
 public class TreePlacer : MonoBehaviour
 {
@@ -31,10 +24,10 @@ public class TreePlacer : MonoBehaviour
     public int ficusPrototypeIndex = 2;
 
     [Header("Densidad por zona (0 = nada, 1 = máxima)")]
-    [Range(0f, 1f)] public float densityPendiente = 0.55f; // ribera -> Ficus
-    [Range(0f, 1f)] public float densityBanco = 0.18f;     // banco -> Melia (más disperso)
-    [Range(0f, 1f)] public float densityBajio = 0f;        // estero -> sin árboles
-    [Range(0f, 1f)] public float densitySabana = 0f;       // sabana abierta -> sin árboles
+    [Range(0f, 1f)] public float densityPendiente = 0.55f; // ribera Ficus
+    [Range(0f, 1f)] public float densityBanco = 0.18f;     // banco Melia 
+    [Range(0f, 1f)] public float densityBajio = 0f;        // estero sin árboles
+    [Range(0f, 1f)] public float densitySabana = 0f;       // sabana abierta
 
     [Header("Ruido para evitar patrón de rejilla")]
     [Tooltip("Escala del ruido Perlin que modula la densidad (menor = parches más grandes).")]
@@ -81,7 +74,7 @@ public class TreePlacer : MonoBehaviour
             }
         }
 
-        int zoneRes = classifier.ZoneMap.GetLength(0); // resolución del heightmap (ej. 1025)
+        int zoneRes = classifier.ZoneMap.GetLength(0); // resolución del heightmap 
         float worldWidth = _data.size.x;
         float worldLength = _data.size.z;
 
@@ -101,7 +94,7 @@ public class TreePlacer : MonoBehaviour
                 float sampleX = Mathf.Clamp(worldX + jitterX, 0f, worldWidth - 0.01f);
                 float sampleZ = Mathf.Clamp(worldZ + jitterZ, 0f, worldLength - 0.01f);
 
-                // Coordenadas normalizadas 0-1 (las que usa Unity para Terrain)
+                // Coordenadas normalizadas 0-1
                 float normX = sampleX / worldWidth;
                 float normZ = sampleZ / worldLength;
 

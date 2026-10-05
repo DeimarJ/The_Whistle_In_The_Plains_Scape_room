@@ -485,6 +485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 954061278}
+  - component: {fileID: 954061279}
   m_Layer: 0
   m_Name: El_Silbon
   m_TagString: Untagged
@@ -508,6 +509,47 @@ Transform:
   - {fileID: 854491106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &954061279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954061277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b2474f894d7af4384c646c9c532c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SilbonAI
+  player: {fileID: 0}
+  threatLevel: 0
+  threatFleeThreshold: 0.5
+  chargeMoveSpeed: 8
+  normalMoveSpeed: 3.5
+  fleeSpeed: 5
+  fleeDuration: 6
+  detectionRange: 20
+  attackRange: 2.2
+  fieldOfViewAngle: 85
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  footstepDetectionRange: 10
+  currentNoiseLevel: 0
+  noiseThreshold: 0.3
+  flashlightDetectionRange: 25
+  playerFlashlightOn: 0
+  micDetectionRange: 12
+  micVolumeThreshold: 0.02
+  waypoints: []
+  waypointWaitTime: 3
+  rotationSpeed: 4
+  attackDamage: 25
+  attackCooldown: 2
+  blockedScreamCooldown: 8
+  whistleSource: {fileID: 0}
+  whistleRangeMin: 10
+  whistleRangeMax: 40
 --- !u!1001 &1027528253
 PrefabInstance:
   m_ObjectHideFlags: 0

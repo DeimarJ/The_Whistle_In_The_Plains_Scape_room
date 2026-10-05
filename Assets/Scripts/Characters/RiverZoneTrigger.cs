@@ -6,7 +6,6 @@ public class RiverZoneTrigger : MonoBehaviour
 
     private void Awake()
     {
-        // Busca el controlador en el objeto padre (Player)
         controller = GetComponentInParent<FirstPersonController>();
     }
     private void OnTriggerEnter(Collider other)
